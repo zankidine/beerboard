@@ -1,42 +1,51 @@
 package fr.almeri.beerboard.controllers;
 
-import fr.almeri.beerboard.models.Pays;
+
+import fr.almeri.beerboard.models.*;
+import fr.almeri.beerboard.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 
+
 @Controller
 public class BaseController {
 
+    @Autowired
+    private PaysRepository paysRepository;
+
+    @Autowired
+    private BrasserieRepository brasserieRepository;
+
+    @Autowired
+    private RegionRepository regionRepository;
+
+    @Autowired
+    private MarqueRepository marqueRepository;
+
+    @Autowired
+    private TypeRepository typeRepository;
     @GetMapping("/example")
     public String example(Model model)
     {
-        Pays pays = new Pays();
-        pays.setNomPays("France");
-        pays.setConsommation(145.0);
-        pays.setProduction(190.9);
 
-        Pays pays1 = new Pays();
-        pays1.setNomPays("Angleterre");
-        pays1.setConsommation(14.0);
-        pays1.setProduction(200.9);
+        ArrayList<Pays> listPaysFromDatabase = (ArrayList<Pays>) paysRepository.findAll();
+        model.addAttribute("listPays", listPaysFromDatabase);
 
-        Pays pays2 = new Pays();
-        pays2.setNomPays("Espagne");
-        pays2.setConsommation(145.0);
-        pays2.setProduction(190.9);
+        ArrayList<Brasserie> listBrasserieFromDatabase = (ArrayList<Brasserie>) brasserieRepository.findAll();
+        model.addAttribute("listBrasserie", listBrasserieFromDatabase);
 
-        ArrayList<Pays> listPays = new ArrayList<>();
+        ArrayList<Region> listRegionFromDatabase = (ArrayList<Region>) regionRepository.findAll();
+        model.addAttribute("listRegion", listRegionFromDatabase);
 
-        listPays.add(pays);
-        listPays.add(pays1);
-        listPays.add(pays2);
+        ArrayList<Marque> listMarqueFromDatabase = (ArrayList<Marque>) marqueRepository.findAll();
+        model.addAttribute("listMarque", listMarqueFromDatabase);
 
-
-        model.addAttribute("listes",listPays);
-
+        ArrayList<Type> listTypeFromDatabase = (ArrayList<Type>) typeRepository.findAll();
+        model.addAttribute("listType", listTypeFromDatabase);
 
         return "hello";
     }

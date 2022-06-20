@@ -1,37 +1,48 @@
 package fr.almeri.beerboard.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Marque {
+@Entity
+@Table(name = "marque")
+public class Marque implements Serializable {
 
     /**
      * Entité marque
      */
-    private String nomMarique;
+    @Id
+    @Column(name = "nom_marque")
+    private String nomMarque;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "code_brasserie")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Brasserie brasserie;
 
     public Marque(){};
 
     /**
-     * @param nomMarique
+     * @param nomMarque
      */
-    public Marque(String nomMarique)
+    public Marque(String nomMarque)
     {
-        this.nomMarique = nomMarique;
+        this.nomMarque = nomMarque;
     }
 
     /**
-     * @return String nomMarique
+     * @return String nomMarque
      */
     public String getNomMarique() {
-        return this.nomMarique;
+        return this.nomMarque;
     }
 
     /**
      * @param nomMarique
      */
     public void setNomMarique(String nomMarique) {
-        this.nomMarique = nomMarique;
+        this.nomMarque = nomMarique;
     }
 
     /**

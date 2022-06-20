@@ -1,13 +1,21 @@
 package fr.almeri.beerboard.models;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Pays {
+@Entity
+@Table(name = "pays")
+public class Pays implements Serializable {
     /**
      * Entité Pays
      */
+    @Id
+    @Column(name = "nom_pays")
     private String nomPays;
+    @Column(name = "consommation")
     private Double consommation;
+    @Column(name = "production")
     private Double production;
 
     public Pays(){};

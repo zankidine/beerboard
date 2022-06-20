@@ -1,15 +1,29 @@
 package fr.almeri.beerboard.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Brasserie {
+@Entity
+@Table(name = "brasserie")
+public class Brasserie implements Serializable {
 
     /**
      * Entité Brasserie
      */
+    @Id
+    @Column(name = "code_brasserie")
     private String codeBrasserie;
+    @Column(name = "nom_brasserie")
     private String nomBrasserie;
+    @Column(name = "ville")
     private String ville;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Region region;
 
     public Brasserie(){};
