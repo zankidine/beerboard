@@ -34,14 +34,14 @@ public class Marque implements Serializable {
     /**
      * @return String nomMarque
      */
-    public String getNomMarique() {
+    public String getNomMarque() {
         return this.nomMarque;
     }
 
     /**
      * @param nomMarique
      */
-    public void setNomMarique(String nomMarique) {
+    public void setNomMarque(String nomMarique) {
         this.nomMarque = nomMarique;
     }
 
@@ -62,7 +62,7 @@ public class Marque implements Serializable {
     @Override
     public String toString() {
         return "Marque{" +
-                "nomMarique='" + this.getNomMarique() + '\'' +
+                "nomMarique='" + this.getNomMarque() + '\'' +
                 ", brasserie=" + this.getBrasserie() +
                 '}';
     }
@@ -72,11 +72,11 @@ public class Marque implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Marque)) return false;
         Marque marque = (Marque) o;
-        return Objects.equals(getNomMarique(), marque.getNomMarique()) && Objects.equals(getBrasserie(), marque.getBrasserie());
+        return Objects.equals(getNomMarque(), marque.getNomMarque()) && Objects.equals(getBrasserie(), marque.getBrasserie());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNomMarique(), getBrasserie());
+        return Objects.hash(getNomMarque(), getBrasserie());
     }
 }

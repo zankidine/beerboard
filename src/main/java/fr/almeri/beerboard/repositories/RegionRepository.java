@@ -10,5 +10,9 @@ import java.util.ArrayList;
 @Repository
 public interface RegionRepository extends CrudRepository<Region, String> {
 
+    @Query("select region.nomRegion from Region region ORDER BY region.nomRegion ASC")
+    public ArrayList<String> getListeNomRegionAsc();
 
+    @Query("select region from Region region ORDER BY region.nomRegion ASC")
+    public ArrayList<Region> getListeNomRegionObjAsc();
 }

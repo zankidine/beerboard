@@ -1,21 +1,16 @@
 package fr.almeri.beerboard.controllers;
 
+import fr.almeri.beerboard.models.Biere;
 import fr.almeri.beerboard.models.Brasserie;
-import fr.almeri.beerboard.models.Marque;
+import fr.almeri.beerboard.repositories.BiereRepository;
 import fr.almeri.beerboard.repositories.BrasserieRepository;
-import fr.almeri.beerboard.repositories.MarqueRepository;
+import fr.almeri.beerboard.repositories.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class BrasserieController {
@@ -24,7 +19,10 @@ public class BrasserieController {
     private BrasserieRepository brasserieRepository;
 
     @Autowired
-    private MarqueRepository marqueRepository;
+    private RegionRepository regionRepository;
+
+    @Autowired
+    private BiereRepository biereRepository;
 
     @GetMapping("/breweries")
     public String listeBrasserie(Model model)
@@ -42,9 +40,29 @@ public class BrasserieController {
 
         model.addAttribute("brasserie", brasserie);
 
+//        ArrayList<Marque> marques = marqueRepository.getListeMarqueByBrasserie(code);
+//        model.addAttribute("marques", marques);
+
+        ArrayList<Biere> bieres = biereRepository.getListeVersionByMarque(code);
+        model.addAttribute("bieres", bieres);
+
 
 
         return "brasserie/detail";
 
+    }
+
+    @GetMapping("/add-brewery")
+    public String ajouterBrasserieForm(Model model)
+    {
+        model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+
+        return "brasserie/ajouter";
+    }
+
+    @PostMapping("/add-brewery")
+    public String ajouterBrasserie()
+    {
+        return "";
     }
 }

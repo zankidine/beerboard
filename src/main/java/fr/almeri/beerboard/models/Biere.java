@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "brasserie")
+@Table(name = "biere")
 @IdClass(BiereId.class)
 public class Biere implements Serializable{
 
@@ -34,6 +34,7 @@ public class Biere implements Serializable{
     private Double tauxAlcool;
     @Column(name = "caracteristiques")
     private String caracteristiques;
+    @Transient
     private String noTypeStr;
 
     public Biere(){};

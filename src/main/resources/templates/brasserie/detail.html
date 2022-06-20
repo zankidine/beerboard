@@ -72,6 +72,36 @@
                     </div>
                   </form>
                 </div>
+                <div>
+                  <div class="card mb-4">
+                    <div class="card-header">
+                      <i class="fas fa-table me-1"></i>
+                      Détails des marques et Versions
+                    </div>
+                    <div class="card-body">
+                      <table id="datatablesSimple">
+                        <thead>
+                        <tr>
+                          <th>Marque</th>
+                          <th>Version</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                          <th>Marque</th>
+                          <th>Version</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr th:each="biere : ${bieres}">
+                          <td th:text="${biere.marque.getNomMarque()}"></td>
+                          <td th:text="${biere.getVersion()}"></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
           </div>
         </div>
