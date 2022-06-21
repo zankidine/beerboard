@@ -19,16 +19,24 @@
                     Profil
                 </a>
                 <div class="sb-sidenav-menu-heading">DETAILS
-                    <a class="nav-link" th:href="@{/breweries}">
+                    <a class="nav-link" th:href="@{/beers}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                        Liste des bières
+                    </a>
+                    <a class="nav-link" th:href="@{/breweries}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                         Liste des brasseries
                     </a>
                 </div>
 
                 <div class="sb-sidenav-menu-heading">ADMINISTRATION
                     <a class="nav-link" th:href="@{/add-brewery}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
                         Ajouter une brasserie
+                    </a>
+                    <a class="nav-link" th:href="@{/add-beer}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                        Ajouter une bière
                     </a>
                 </div>
 

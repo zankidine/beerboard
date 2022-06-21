@@ -17,6 +17,13 @@ public class BiereId implements Serializable {
     @Column(name = "version")
     private String version;
 
+    public BiereId(){};
+    public BiereId(Marque marque, String version)
+    {
+        this.marque = marque;
+        this.version = version;
+    }
+
     /**
      * @return Marque
      */

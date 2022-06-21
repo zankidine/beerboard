@@ -27,6 +27,9 @@ public class Type implements Serializable {
     private String commentaire;
 
     public Type(){};
+    public Type(String nomType){
+        this.nomType = nomType;
+    };
 
     /**
      *

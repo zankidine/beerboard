@@ -1,6 +1,5 @@
 package fr.almeri.beerboard.models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -90,7 +89,7 @@ public class Biere implements Serializable{
      * @return Type
      */
     public Type getType() {
-        return type;
+        return this.type;
     }
 
     /**
