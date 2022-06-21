@@ -55,14 +55,32 @@ public class BrasserieController {
     @GetMapping("/add-brewery")
     public String ajouterBrasserieForm(Model model)
     {
+        model.addAttribute("update", false);
+        model.addAttribute("brasserie", new Brasserie());
         model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
 
         return "brasserie/ajouter";
     }
 
     @PostMapping("/add-brewery")
-    public String ajouterBrasserie()
+    public String ajouterBrasserie (@ModelAttribute Brasserie brasserie, Model model)
     {
-        return "";
+        // Création d'une brasserie + enregistrement dans la base de données.
+        //Brasserie newBrasserie = brasserieRepository.save(brasserie);
+        //System.out.println(brasserie);
+        brasserieRepository.save(brasserie);
+
+
+        return "redirect:/breweries";
+    }
+
+    @GetMapping("/update-brewery/{code}")
+    public String modifierBrasserieForm(Model model,@PathVariable String code)
+    {
+        model.addAttribute("update", true);
+        model.addAttribute("brasserie", brasserieRepository.findById(code));
+        model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+
+        return "brasserie/ajouter";
     }
 }

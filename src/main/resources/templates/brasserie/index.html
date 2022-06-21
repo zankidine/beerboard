@@ -67,6 +67,7 @@
                 <td th:text="${brasserie.getRegion().getNomRegion()}"></td>
                 <td>
                   <a th:href="@{/see-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-eye"></i></a>
+                  <a th:href="@{/update-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-pen-to-square"></i></a>
                 </td>
               </tr>
               </tbody>
