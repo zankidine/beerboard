@@ -23,6 +23,9 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg espace">
+                                    <div th:if="${isBad}" class="alert alert-danger" role="alert">
+                                        Le mot de passe ou le login est incorrect.
+                                    </div>
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Connexion</h3></div>
                                     <div class="card-body">
                                         <form method="post" th:action="@{/login}" enctype="application/x-www-form-urlencoded" >

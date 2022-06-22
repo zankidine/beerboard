@@ -32,6 +32,7 @@ public class Auth {
             return "redirect:/";
 
         }else {
+            model.addAttribute("isBad", false);
             // Page de connexion
             return "login";
         }
@@ -49,7 +50,7 @@ public class Auth {
      * @throws NoSuchProviderException
      */
     @PostMapping("/login")
-    public String auth(@ModelAttribute Users user, HttpSession session) throws NoSuchAlgorithmException, NoSuchFieldException, NoSuchProviderException {
+    public String auth(@ModelAttribute Users user, HttpSession session, Model model) throws NoSuchAlgorithmException, NoSuchFieldException, NoSuchProviderException {
 
         // Vérification au niveau de la base de données.
         boolean isOk = this.checkPaaword(user);
@@ -72,6 +73,8 @@ public class Auth {
 
         } else {
 
+
+            model.addAttribute("isBad", true);
             return "redirect:/login";
         }
 
