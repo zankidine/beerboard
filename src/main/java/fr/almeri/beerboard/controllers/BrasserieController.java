@@ -121,7 +121,7 @@ public class BrasserieController {
      * @return
      */
     @PostMapping("/add-brewery")
-    public String ajouterBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model, HttpSession session)
+    public String traitementBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model, HttpSession session)
     {
         if (session.getAttribute("auth") != null)
         {
