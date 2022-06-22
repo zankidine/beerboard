@@ -1,20 +1,20 @@
 package fr.almeri.beerboard.controllers;
 
+import fr.almeri.beerboard.Utils;
 import fr.almeri.beerboard.models.Users;
 import fr.almeri.beerboard.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+
+
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 @Controller
 public class Auth {
@@ -39,33 +39,85 @@ public class Auth {
 
     }
 
+    /**
+     * AAuthentication de l'utilisateur
+     * @param user
+     * @param session
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchFieldException
+     * @throws NoSuchProviderException
+     */
     @PostMapping("/login")
-    public String auth(@ModelAttribute Users user, HttpSession session)
-    {
+    public String auth(@ModelAttribute Users user, HttpSession session) throws NoSuchAlgorithmException, NoSuchFieldException, NoSuchProviderException {
+
         // Vérification au niveau de la base de données.
-        Users userAuth = usersRepository.getUser(user.getLogin(), user.getPassword());
+        boolean isOk = this.checkPaaword(user);
 
-        // Connexion impossible
-        if (ObjectUtils.isEmpty(userAuth))
+
+        if (isOk)
         {
-            return "redirect:/login";
-
-        }else {
+            // Hachage de mot de passe
+//            userAuth.setSalt(Utils.getSalt());
+//            userAuth.setPassword(Utils.hashMD5withSalt(userAuth.getPassword(), userAuth.getSalt()));
+//            usersRepository.save(userAuth);
             // Démarre une session
-            session.setAttribute("auth", userAuth);
-            session.setMaxInactiveInterval(360*360*60);
+
+            // Création d'une session avec
+            // utilisateur connecté
+            session.setAttribute("auth", user);
+            session.setMaxInactiveInterval(60);
             // Si connexion Ok
             return "redirect:/";
+
+        } else {
+
+            return "redirect:/login";
         }
+
 
     }
 
+    /**
+     * Déconnexion de l'utilisateur
+     * @param pModel
+     * @param session
+     * @return
+     */
     @GetMapping("/logout")
     public String logout(Model pModel, HttpSession session){
 
+        // Supprime la variable auth(Users)
         session.removeAttribute("auth");
+        // Destruction de la session
         session.invalidate();
 
         return "redirect:/login";
+    }
+
+    /**
+     * Vérification de l'égalité de mot de passe
+     * @param user
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchFieldException
+     * @throws NoSuchProviderException
+     */
+    private boolean checkPaaword(Users user) throws NoSuchAlgorithmException, NoSuchFieldException, NoSuchProviderException {
+        // On cherche le user en BDD à l'aide de son login
+        Users u = usersRepository.findByLogin(user.getLogin());
+
+        // Si mot de passe ne correspond pas
+        if (u == null)
+        {
+            return false;
+        }
+
+        // Chiffrage du mot de passe saisi par l'utilisateur
+        // Pour comparaison
+        String newPass = Utils.hashMD5withSalt(user.getPassword(), u.getSalt());
+
+        // Retourne True si mot de passe saisi == mot de passe de la base de données
+        return newPass.equals(u.getPassword());
     }
 }
