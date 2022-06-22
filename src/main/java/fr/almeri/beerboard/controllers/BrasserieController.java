@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -39,13 +40,22 @@ public class BrasserieController {
      * @return
      */
     @GetMapping("/breweries")
-    public String listeBrasserie(Model model)
+    public String listeBrasserie(Model model, HttpSession session)
     {
-        // On récupère l'ensemble des brasseries de la base de données
-        ArrayList<Brasserie> listBrasserieFromDatabase = (ArrayList<Brasserie>) brasserieRepository.findAll();
-        model.addAttribute("listBrasserie", listBrasserieFromDatabase);
+        if (session.getAttribute("auth") != null)
+        {
+            // On récupère l'ensemble des brasseries de la base de données
+            ArrayList<Brasserie> listBrasserieFromDatabase = (ArrayList<Brasserie>) brasserieRepository.findAll();
+            model.addAttribute("listBrasserie", listBrasserieFromDatabase);
 
-        return "brasserie/index";
+            return "brasserie/index";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
+
     }
 
     /**
@@ -56,17 +66,26 @@ public class BrasserieController {
      * @return
      */
     @GetMapping("/see-brewery/{code}")
-    public String detailBrasserie(Model model, @PathVariable String code)
+    public String detailBrasserie(Model model, @PathVariable String code, HttpSession session)
     {
-        // On récupère la brasserie pour la consultation
-        Brasserie brasserie = brasserieRepository.findById(code).orElseThrow();
-        model.addAttribute("brasserie", brasserie);
+        if (session.getAttribute("auth") != null)
+        {
 
-        // On récupère la lsite des marques et versions associées à une brasserie
-        ArrayList<Biere> bieres = biereRepository.getListeVersionByMarque(code);
-        model.addAttribute("bieres", bieres);
+            // On récupère la brasserie pour la consultation
+            Brasserie brasserie = brasserieRepository.findById(code).orElseThrow();
+            model.addAttribute("brasserie", brasserie);
 
-        return "brasserie/detail";
+            // On récupère la lsite des marques et versions associées à une brasserie
+            ArrayList<Biere> bieres = biereRepository.getListeVersionByMarque(code);
+            model.addAttribute("bieres", bieres);
+
+            return "brasserie/detail";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
 
     }
 
@@ -76,14 +95,23 @@ public class BrasserieController {
      * @return
      */
     @GetMapping("/add-brewery")
-    public String ajouterBrasserieForm(Model model)
+    public String ajouterBrasserieForm(Model model, HttpSession session)
     {
-        model.addAttribute("update", false);
-        model.addAttribute("brasserie", new Brasserie());
-        // regionRepository.getListeNomRegionObjAsc() retourne la liste des régions
-        model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+        if (session.getAttribute("auth") != null)
+        {
 
-        return "brasserie/ajouter";
+            model.addAttribute("update", false);
+            model.addAttribute("brasserie", new Brasserie());
+            // regionRepository.getListeNomRegionObjAsc() retourne la liste des régions
+            model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+
+            return "brasserie/ajouter";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
     /**
@@ -93,12 +121,21 @@ public class BrasserieController {
      * @return
      */
     @PostMapping("/add-brewery")
-    public String ajouterBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model)
+    public String ajouterBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model, HttpSession session)
     {
-        // Création d'une brasserie + enregistrement dans la base de données.
-        brasserieRepository.save(brasserie);
+        if (session.getAttribute("auth") != null)
+        {
 
-        return "redirect:/breweries";
+            // Création d'une brasserie + enregistrement dans la base de données.
+            brasserieRepository.save(brasserie);
+
+            return "redirect:/breweries";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
     /**
@@ -109,12 +146,21 @@ public class BrasserieController {
      * @return
      */
     @GetMapping("/update-brewery/{code}")
-    public String modifierBrasserieForm(Model model,@PathVariable String code)
+    public String modifierBrasserieForm(Model model,@PathVariable String code, HttpSession session)
     {
-        model.addAttribute("update", true);
-        model.addAttribute("brasserie", brasserieRepository.findById(code));
-        model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+        if (session.getAttribute("auth") != null)
+        {
 
-        return "brasserie/ajouter";
+            model.addAttribute("update", true);
+            model.addAttribute("brasserie", brasserieRepository.findById(code));
+            model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
+
+            return "brasserie/ajouter";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 }

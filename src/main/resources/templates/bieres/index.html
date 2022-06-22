@@ -43,13 +43,13 @@
             <table id="datatablesSimple">
               <thead>
               <tr>
-                <th>Marque</th>
+                <th >Marque</th>
                 <th>Version</th>
                 <th>Types</th>
                 <th>Couleur de la bière</th>
                 <th>Taux d'alcool</th>
                 <th>Caractéristiques</th>
-                <th></th>
+                <th>Action</th>
               </tr>
               </thead>
               <tfoot>
@@ -60,7 +60,7 @@
                 <th>Couleur de la bière</th>
                 <th>Taux d'alcool</th>
                 <th>Caractéristiques</th>
-                <th></th>
+                <th>Action</th>
               </tr>
               </tfoot>
               <tbody>
@@ -71,9 +71,10 @@
                 <td th:text="${biere.getCouleurBiere()}"></td>
                 <td th:text="${biere.getTauxAlcool()}"></td>
                 <td th:text="${biere.getCaracteristiques()}"></td>
-                <td>
-                  <a th:href="@{/see-beer/{marque}/{version}(marque=${biere.marque.getNomMarque()},version=${biere.getVersion()})}"><i class="fa-solid fa-eye"></i></a>
-                  <a th:href="@{/update-beer/{marque}/{version}(marque=${biere.marque.getNomMarque()},version=${biere.getVersion()})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <td class="text-center">
+                  <a class="text-dark" th:href="@{/see-beer/{marque}/{version}(marque=${biere.marque.getNomMarque()},version=${biere.getVersion()})}" ><i class="fa-solid fa-eye"></i></a>
+                  <a class="text-success px-2" th:href="@{/update-beer/{marque}/{version}(marque=${biere.marque.getNomMarque()},version=${biere.getVersion()})}" ><i class="fa-solid fa-pen-to-square"></i></a>
+                  <a class="text-danger" th:href="@{/delete-beer/{marque}/{version}(marque=${biere.marque.getNomMarque()},version=${biere.getVersion()})}"><i class="fa-solid fa-trash"></i></a>
                 </td>
               </tr>
               </tbody>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -41,14 +42,23 @@ public class BiereController {
      * @return
      */
     @GetMapping("/beers")
-    public String listeBieres(Model model)
+    public String listeBieres(Model model, HttpSession session)
     {
-        // On récupère l'ensemble des bières de la base de données
-        ArrayList<Biere> listBieresFromDatabase = (ArrayList<Biere>) biereRepository.findAll();
+        if (session.getAttribute("auth") != null)
+        {
 
-        model.addAttribute("listBieres", listBieresFromDatabase);
+            // On récupère l'ensemble des bières de la base de données
+            ArrayList<Biere> listBieresFromDatabase = (ArrayList<Biere>) biereRepository.findAll();
 
-        return "bieres/index";
+            model.addAttribute("listBieres", listBieresFromDatabase);
+
+            return "bieres/index";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
     /**
@@ -59,16 +69,25 @@ public class BiereController {
      * @return
      */
     @GetMapping("/see-beer/{marque}/{version}")
-    public String detailBiere(Model model, @PathVariable String marque, @PathVariable String version)
+    public String detailBiere(Model model, @PathVariable String marque, @PathVariable String version, HttpSession session)
     {
-        // Id bière
-        BiereId idBiere = new BiereId(new Marque(marque),version);
+        if (session.getAttribute("auth") != null)
+        {
 
-        // Obj Bière
-        Biere biere = biereRepository.findById(idBiere).orElseThrow();
-        model.addAttribute("biere", biere);
+            // Id bière
+            BiereId idBiere = new BiereId(new Marque(marque),version);
 
-        return "bieres/detail";
+            // Obj Bière
+            Biere biere = biereRepository.findById(idBiere).orElseThrow();
+            model.addAttribute("biere", biere);
+
+            return "bieres/detail";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
 
     }
 
@@ -78,14 +97,23 @@ public class BiereController {
      * @return
      */
     @GetMapping("/add-beer")
-    public String ajouterBiereForm(Model model)
+    public String ajouterBiereForm(Model model, HttpSession session)
     {
-        model.addAttribute("update", false);
-        model.addAttribute("biere", new Biere());
-        model.addAttribute("listeType", typeRepository.findAll());
-        model.addAttribute("listeMarque", marqueRepository.findAll());
+        if (session.getAttribute("auth") != null)
+        {
 
-        return "bieres/ajouter";
+            model.addAttribute("update", false);
+            model.addAttribute("biere", new Biere());
+            model.addAttribute("listeType", typeRepository.findAll());
+            model.addAttribute("listeMarque", marqueRepository.findAll());
+
+            return "bieres/ajouter";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
     /**
@@ -95,14 +123,23 @@ public class BiereController {
      * @return
      */
     @PostMapping("/add-beer")
-    public String ajouterBiere (@Validated @ModelAttribute Biere biere, Model model)
+    public String ajouterBiere (@Validated @ModelAttribute Biere biere, Model model, HttpSession session)
     {
-        // Création d'une bière + enregistrement dans la base de données.
-        //System.out.println(biere);
+        if (session.getAttribute("auth") != null)
+        {
 
-        biereRepository.save(biere);
+            // Création d'une bière + enregistrement dans la base de données.
+            //System.out.println(biere);
 
-        return "redirect:/beers";
+            biereRepository.save(biere);
+
+            return "redirect:/beers";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
     /**
@@ -114,17 +151,53 @@ public class BiereController {
      * @return
      */
     @GetMapping("/update-beer/{marque}/{version}")
-    public String modifierBrasserieForm(Model model,@PathVariable String marque, @PathVariable String version)
+    public String modifierBiereForm(Model model,@PathVariable String marque, @PathVariable String version, HttpSession session)
     {
-        // Id bière
-        BiereId idBiere = new BiereId(new Marque(marque),version);
+        if (session.getAttribute("auth") != null)
+        {
 
-        model.addAttribute("update", true);
-        model.addAttribute("biere", biereRepository.findById(idBiere));
-        model.addAttribute("listeType", typeRepository.findAll());
-        model.addAttribute("listeMarque", marqueRepository.findAll());
+            // Id bière
+            BiereId idBiere = new BiereId(new Marque(marque),version);
 
-        return "bieres/ajouter";
+            model.addAttribute("update", true);
+            model.addAttribute("biere", biereRepository.findById(idBiere));
+            model.addAttribute("listeType", typeRepository.findAll());
+            model.addAttribute("listeMarque", marqueRepository.findAll());
+
+            return "bieres/ajouter";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
+    }
+
+    /**
+     * Suppression d'une bière
+     * @param model
+     * @param marque
+     * @param version
+     * @return
+     */
+    @GetMapping("/delete-beer/{marque}/{version}")
+    public String supprimerBiereForm(Model model,@PathVariable String marque, @PathVariable String version, HttpSession session)
+    {
+        if (session.getAttribute("auth") != null)
+        {
+
+            // Id bière
+            BiereId idBiere = new BiereId(new Marque(marque),version);
+
+            biereRepository.deleteById(idBiere);
+
+            return "redirect:/beers";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
     }
 
 
