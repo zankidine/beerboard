@@ -8,9 +8,12 @@
 package fr.almeri.beerboard.controllers;
 
 import fr.almeri.beerboard.models.Biere;
+import fr.almeri.beerboard.models.BiereId;
 import fr.almeri.beerboard.models.Brasserie;
+import fr.almeri.beerboard.models.Marque;
 import fr.almeri.beerboard.repositories.BiereRepository;
 import fr.almeri.beerboard.repositories.BrasserieRepository;
+import fr.almeri.beerboard.repositories.MarqueRepository;
 import fr.almeri.beerboard.repositories.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,9 @@ public class BrasserieController {
 
     @Autowired
     private BiereRepository biereRepository;
+
+    @Autowired
+    private MarqueRepository marqueRepository;
 
     /**
      * Affiche la liste des brasseries
@@ -156,6 +162,58 @@ public class BrasserieController {
             model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
 
             return "brasserie/ajouter";
+
+        }else {
+            // Page de connexion
+            return "login";
+        }
+
+    }
+
+    /**
+     * Supprission en cascade d'une brasserie
+     * @param model
+     * @param code
+     * @param session
+     * @return
+     */
+    @GetMapping("/delete-brewery/{code}")
+    public String suppressionBrasserieForm(Model model,@PathVariable String code, HttpSession session)
+    {
+
+        if (session.getAttribute("auth") != null)
+        {
+
+            //Brasserie brasserie = brasserieRepository.findById(code).orElseThrow();
+            ArrayList<Biere> bieres = biereRepository.getListeVersionByMarque(code);
+
+            // Suppression de l'ensemble des bières + marques + versions
+            if (!bieres.isEmpty()) {
+                for (Biere biere: bieres) {
+                    BiereId id = new BiereId(biere.getMarque(), biere.getVersion());
+                    // Supprime la bière + version
+                    biereRepository.deleteById(id);
+                }
+            }
+
+            //
+            ArrayList<Marque> marques = marqueRepository.getListeMarqueByBrasserie(code);
+
+            if (!marques.isEmpty())
+            {
+                for (Marque marque: marques) {
+
+                    // Suppression d'une marque
+                    marqueRepository.deleteById(marque.getNomMarque());
+                }
+            }
+
+
+
+            // Supression de la brasserie
+            brasserieRepository.deleteById(code);
+
+            return "redirect:/breweries";
 
         }else {
             // Page de connexion

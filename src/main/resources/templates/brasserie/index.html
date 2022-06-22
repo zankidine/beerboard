@@ -47,7 +47,7 @@
                 <th>Nom</th>
                 <th>Ville</th>
                 <th>Région</th>
-                <th></th>
+                <th>Action</th>
               </tr>
               </thead>
               <tfoot>
@@ -56,7 +56,7 @@
                 <th>Nom</th>
                 <th>Ville</th>
                 <th>Région</th>
-                <th></th>
+                <th>Action</th>
               </tr>
               </tfoot>
               <tbody>
@@ -65,9 +65,10 @@
                 <td th:text="${brasserie.getNomBrasserie()}"></td>
                 <td th:text="${brasserie.getVille()}"></td>
                 <td th:text="${brasserie.getRegion().getNomRegion()}"></td>
-                <td>
-                  <a th:href="@{/see-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-eye"></i></a>
-                  <a th:href="@{/update-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <td class="text-center">
+                  <a class="text-dark" th:href="@{/see-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-eye"></i></a>
+                  <a class="text-success px-2" th:href="@{/update-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                  <a class="text-danger" th:href="@{/delete-brewery/{code}(code=${brasserie.getCodeBrasserie()})}"><i class="fa-solid fa-trash"></i></a>
                 </td>
               </tr>
               </tbody>
