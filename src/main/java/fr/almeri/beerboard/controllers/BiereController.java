@@ -189,6 +189,7 @@ public class BiereController {
             // Id bière
             BiereId idBiere = new BiereId(new Marque(marque),version);
 
+
             if (!biereRepository.findById(idBiere).isEmpty())
             {
                 biereRepository.deleteById(idBiere);

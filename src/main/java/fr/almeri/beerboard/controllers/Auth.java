@@ -55,11 +55,11 @@ public class Auth {
         // Vérification au niveau de la base de données.
         boolean isOk = this.checkPaaword(user);
 
-
         if (isOk)
         {
             // Hachage de mot de passe
-//            userAuth.setSalt(Utils.getSalt());
+            //Users userAuth = usersRepository.findById(user.getUserId()).orElseThrow();
+            //userAuth.setSalt(Utils.getSalt());
 //            userAuth.setPassword(Utils.hashMD5withSalt(userAuth.getPassword(), userAuth.getSalt()));
 //            usersRepository.save(userAuth);
             // Démarre une session
