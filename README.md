@@ -13,6 +13,11 @@ dans la base de données.
 ### Application web
 L’application web Beerboard est écrite en JAVA 11. Elle utilise le framework Spring Boot 2.6.2.
 
+### Informations de connexion
+### Lien : [Lien d'accès à la démo](http://94.247.183.122:8080/)
+#### Login : zankidine.abdou
+#### Mdp : zankidineabdou
+
 ### Base de données
 La base de données utilisée est locale et utilise le moteur MySQL. Un dump de la base de données
 est disponible dans le répertoire src\main\resources\sql.
