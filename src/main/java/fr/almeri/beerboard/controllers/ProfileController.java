@@ -16,7 +16,7 @@ public class ProfileController {
         if (session.getAttribute("auth") != null)
         {
 
-            return "/profile";
+            return "profile";
 
         }else {
             // Page de connexion

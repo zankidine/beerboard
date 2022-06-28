@@ -33,7 +33,9 @@
           <li class="breadcrumb-item active">Liste bières</li>
         </ol>
         <div class="card mb-4">
-          <div th:if="${message != null}" th:text="${message}" class="alert alert-success" role="alert"></div>
+          <div th:if="${message != null}"  class="alert alert-success" role="alert">
+            <p th:text="${message}"></p>
+          </div>
           <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Liste des bières
@@ -91,5 +93,13 @@
 <script th:src="@{~/js/scripts.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script th:src="@{~/js/datatables-simple-demo.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+    });
+  }, 2000);
+</script>
 </body>
 </html>

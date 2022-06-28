@@ -133,7 +133,7 @@ public class BiereController {
 
             biereRepository.save(biere);
 
-            flash.addFlashAttribute("message", "Ajout d'une bière Ok");
+            flash.addFlashAttribute("message", "Ajout/Modification Ok");
 
             return "redirect:/beers";
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -127,13 +128,15 @@ public class BrasserieController {
      * @return
      */
     @PostMapping("/add-brewery")
-    public String traitementBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model, HttpSession session)
+    public String traitementBrasserie (@Validated @ModelAttribute Brasserie brasserie, Model model, HttpSession session, RedirectAttributes flash)
     {
         if (session.getAttribute("auth") != null)
         {
 
             // Création d'une brasserie + enregistrement dans la base de données.
             brasserieRepository.save(brasserie);
+
+            flash.addFlashAttribute("message", "Ajout/Modification Ok");
 
             return "redirect:/breweries";
 
@@ -161,6 +164,7 @@ public class BrasserieController {
             model.addAttribute("brasserie", brasserieRepository.findById(code));
             model.addAttribute("listeRegion", regionRepository.getListeNomRegionObjAsc());
 
+
             return "brasserie/ajouter";
 
         }else {
@@ -178,7 +182,7 @@ public class BrasserieController {
      * @return
      */
     @GetMapping("/delete-brewery/{code}")
-    public String suppressionBrasserieForm(Model model,@PathVariable String code, HttpSession session)
+    public String suppressionBrasserieForm(Model model,@PathVariable String code, HttpSession session, RedirectAttributes flash)
     {
 
         if (session.getAttribute("auth") != null)
@@ -212,6 +216,8 @@ public class BrasserieController {
 
             // Supression de la brasserie
             brasserieRepository.deleteById(code);
+
+            flash.addFlashAttribute("message", "Suppression Ok");
 
             return "redirect:/breweries";
 
