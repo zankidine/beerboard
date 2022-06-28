@@ -15,7 +15,7 @@ L’application web Beerboard est écrite en JAVA 11. Elle utilise le framework 
 
 ### Informations de connexion
 > ### Lien : [Lien d'accès à la démo](http://94.247.183.122:8080/)
-> #### Login : zankidine.abdou
+> #### Login : zankidine.abdou@cci.com
 > #### Mdp : zankidineabdou
 
 ### Base de données
