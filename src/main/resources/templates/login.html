@@ -8,10 +8,17 @@
         <meta name="author" content="" />
         <title>Login - SB Admin</title>
         <link href="css/styles.css" rel="stylesheet" />
+        <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <style>
             .espace {
                 margin-block-start:10rem;
+            }
+            
+            body {
+                background-image: url("img/bg.jpg");
+                background-repeat: no-repeat;
+                object-fit: cover;
             }
         </style>
     </head>
@@ -26,7 +33,7 @@
                                     <div th:if="${isBad}" class="alert alert-danger" role="alert">
                                         Le mot de passe ou le login est incorrect.
                                     </div>
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Connexion</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Connection</h3></div>
                                     <div class="card-body">
                                         <form method="post" th:action="@{/login}" enctype="application/x-www-form-urlencoded" >
                                             <div class="form-floating mb-3">
