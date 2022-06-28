@@ -22,7 +22,7 @@
 </nav>
 
 <div id="layoutSidenav">
-  <div th:insert="~{/left_bar}"></div>
+  <div th:insert="~{left_bar.html}"></div>
 
   <div id="layoutSidenav_content">
     <main class="container-fluid">
@@ -33,6 +33,7 @@
           <li class="breadcrumb-item active">Liste bières</li>
         </ol>
         <div class="card mb-4">
+          <div th:if="${message != null}" th:text="${message}" class="alert alert-success" role="alert"></div>
           <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Liste des bières
@@ -81,7 +82,7 @@
         </div>
       </div>
     </main>
-    <div th:insert="~{/footer}"></div>
+    <div th:insert="~{footer.html}"></div>
   </div>
 
 </div>

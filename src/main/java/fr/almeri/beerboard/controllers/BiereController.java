@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -123,15 +124,16 @@ public class BiereController {
      * @return
      */
     @PostMapping("/add-beer")
-    public String ajouterBiere (@Validated @ModelAttribute Biere biere, Model model, HttpSession session)
+    public String ajouterBiere (@Validated @ModelAttribute Biere biere, Model model, HttpSession session,RedirectAttributes flash)
     {
         if (session.getAttribute("auth") != null)
         {
 
             // Création d'une bière + enregistrement dans la base de données.
-            //System.out.println(biere);
 
             biereRepository.save(biere);
+
+            flash.addFlashAttribute("message", "Ajout d'une bière Ok");
 
             return "redirect:/beers";
 
@@ -181,7 +183,7 @@ public class BiereController {
      * @return
      */
     @GetMapping("/delete-beer/{marque}/{version}")
-    public String supprimerBiereForm(Model model,@PathVariable String marque, @PathVariable String version, HttpSession session)
+    public String supprimerBiereForm(Model model, @PathVariable String marque, @PathVariable String version, HttpSession session, RedirectAttributes flash)
     {
         if (session.getAttribute("auth") != null)
         {
@@ -194,6 +196,8 @@ public class BiereController {
             {
                 biereRepository.deleteById(idBiere);
             }
+
+            flash.addFlashAttribute("message", "Suppression Ok");
 
             return "redirect:/beers";
 

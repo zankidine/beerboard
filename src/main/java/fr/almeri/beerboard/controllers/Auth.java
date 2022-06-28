@@ -67,7 +67,7 @@ public class Auth {
             // Création d'une session avec
             // utilisateur connecté
             session.setAttribute("auth", user);
-            session.setMaxInactiveInterval(60);
+            session.setMaxInactiveInterval(60*60*60*60);
             // Si connexion Ok
             return "redirect:/";
 
